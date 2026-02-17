@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import category,Blog
-# Register your models here.
+from .models import category, Blog
 
+@admin.register(category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category_name', 'created_at')
+
+@admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    prepopulated_fields={'slug':('title',)}
-    list_display=('title','category','author','is_feautred','status')
-    search_fields=('id','title','category__category_name','status')
-    list_editable=('is_feautred','status')
-
-admin.site.register(category)
-admin.site.register(Blog,BlogAdmin)
+    list_display = ('id', 'title', 'category', 'author', 'status', 'is_featured', 'created_at')
+    list_filter = ('status', 'is_featured', 'category')
+    prepopulated_fields = {'slug': ('title',)}
